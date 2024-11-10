@@ -1,5 +1,6 @@
 #include "token.h"
 #include <algorithm>
+#include "error.h"
 
 short counter = 0;  // Initialize counter
 std::unordered_map<short, std::string> functions;
@@ -30,6 +31,10 @@ Token::Token (TokenType type,int number){
 Token::Token(int number) {
     this->type = NUMBER;
     this->value.number = number;
+}
+Token::Token (TokenType type,std::string str){
+    this->type = DECLARE;
+
 }
 #include <iostream>
 #include "token.h"

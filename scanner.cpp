@@ -3,8 +3,15 @@
 #include <iostream>
 #include <vector>
 #include <cctype>
-
+void loadKeywords(){
+    std::vector<std::string> keywords = {"input","print","sol","luna","nox","constas","omnis","if","else","loop"};
+    for(auto keyword:keywords){
+        functions[counter] = keyword;
+        counter++;
+    }
+}
 std::vector<Token> Scanner(std::string filename) {
+    loadKeywords();
     FileReader reader(filename);
     std::vector<Token> tokens;
 
@@ -62,27 +69,7 @@ std::vector<Token> Scanner(std::string filename) {
                 break;
             }
 
-            case '<': {
-                char next = reader.readNextChar();
-                if (next == '=') {
-                    tokens.push_back(Token(LESSEQUAL));
-                } else {
-                    reader.goBack(); // Move back if it's just '<'
-                    tokens.push_back(Token(LESSTHAN));
-                }
-                break;
-            }
 
-            case '>': {
-                char next = reader.readNextChar();
-                if (next == '=') {
-                    tokens.push_back(Token(GREATEREQUAL));
-                } else {
-                    reader.goBack(); // Move back if it's just '>'
-                    tokens.push_back(Token(GREATERTHAN));
-                }
-                break;
-            }
 
             case '(':
                 tokens.push_back(Token(BOPEN));
@@ -111,7 +98,78 @@ std::vector<Token> Scanner(std::string filename) {
             case '@':
                 tokens.push_back(Token(CALLER));
                 break;
+            case '<': {
+                char next = reader.readNextChar();
+                if (next == '~') {
+                    tokens.push_back(Token(LEFTPUSH));
+                } else if (next == '<') {
+                    tokens.push_back(Token(LEFTCOPY));
+                } else if (next == '=') {
+                    tokens.push_back(Token(LESSEQUAL));
+                } else {
+                    reader.goBack(); // Move back if it's just '<'
+                    tokens.push_back(Token(LESSTHAN));
+                }
+                break;
+            }
 
+            case '>': {
+                char next = reader.readNextChar();
+                if (next == '>') {
+                    tokens.push_back(Token(RIGHTCOPY));
+                } else if (next == '=') {
+                    tokens.push_back(Token(GREATEREQUAL));
+
+                } else {
+                    reader.goBack(); // Move back if it's just '>'
+                    tokens.push_back(Token(GREATERTHAN));
+                }
+                break;
+            }
+                case ':':{
+                    std::string pattern = "";
+                    pattern+=reader.readNextChar();
+                    pattern+=reader.readNextChar();
+                    pattern+=reader.readNextChar();
+                    short k=0;
+                    if(reader.readNextChar()==':'){
+                        for(auto cont:pattern){
+                            switch(cont){
+                                case 's':{
+                                    k = k*3+0;
+                                    break;
+                                }
+                                case 'q':{
+                                    k = k*3+1;
+                                    break;
+                                }
+                                case 'p':{
+                                    k=k*3+2;
+                                    break;
+                                }
+                                default:{
+                                    error("Invalid Container Initialization");
+                                    break;
+                                }
+
+                            }
+                        }
+                        tokens.push_back(Token(DECLARE,k));
+                    }
+                    else{
+                        error("Invalid Container Initialization");
+                    }
+                    break;
+                }
+                case '~': {
+                    if(reader.readNextChar()=='>'){
+                        tokens.push_back(RIGHTPUSH);
+                    }
+                    break;
+                }
+
+
+                break;
             default:
                 // Handle numbers
                 if (std::isdigit(current)) {

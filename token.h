@@ -18,7 +18,7 @@ typedef union Storage {
 extern short counter;
 
 // Map to store identifier strings
-extern std::unordered_map<short, std::string> identifier;
+extern std::unordered_map<short, std::string> functions;
 
 // Enumeration for token types
 typedef enum TokenType {
@@ -74,6 +74,7 @@ public:
     Token(std::string literal);      // For identifiers (sets identifierKey)
     Token(int number);               // For numbers (sets number)
     Token (TokenType type,int number);//For push and copy values
+    Token (TokenType type,std::string str);
     void printToken();
 };
 
