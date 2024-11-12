@@ -3,12 +3,18 @@
 #include <iostream>
 #include <vector>
 #include <cctype>
+std::unordered_map<std::string,TokenType> keywords;
 void loadKeywords(){
-    std::vector<std::string> keywords = {"input","print","sol","luna","nox","constas","omnis","if","else","loop"};
-    for(auto keyword:keywords){
-        functions[counter] = keyword;
-        counter++;
-    }
+    keywords["input"] = INPUT;
+    keywords["print"] = PRINT;
+    keywords["sol"] = SOL;
+    keywords["luna"] = LUNA;
+    keywords["nox"] = NOX;
+    keywords["constas"] = CONSTAS;
+    keywords["omnis"] = OMNIS;
+    keywords["IF"] = IF;
+    keywords["else"] = ELSE;
+    keywords["loop"] = LOOP;
 }
 std::vector<Token> Scanner(std::string filename) {
     loadKeywords();
@@ -192,9 +198,13 @@ std::vector<Token> Scanner(std::string filename) {
                         next = reader.readNextChar();
                     }
                     reader.goBack(); // Step back one character
-                    if (identifier == "function") {
-                        tokens.push_back(Token(FUNCTION));
+                    if (keywords.find(identifier)!=keywords.end()) {
+                        tokens.push_back(Token(keywords[identifier]));
+
                     } else {
+                        if(identifier=="main"){
+                            mainLocation = counter;
+                        }
                         tokens.push_back(Token(identifier)); // Treat as a general identifier
                     }
                 }

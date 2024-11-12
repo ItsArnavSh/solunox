@@ -1,5 +1,4 @@
 $main{
     :sss:
-    sol <~ 3;
-    sol >> 4;
-}
+    sol << 9
+    }

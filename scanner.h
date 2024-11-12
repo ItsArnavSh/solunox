@@ -5,3 +5,4 @@
 #include "fileReader.h"
 #include "errorHandle.h"
 std::vector<Token> Scanner(std::string filename);
+void loadKeywords();

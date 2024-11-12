@@ -16,12 +16,18 @@ typedef union Storage {
 
 // Global counter for new identifier keys
 extern short counter;
-
+extern short mainLocation;//Saves the index of the main function
 // Map to store identifier strings
 extern std::unordered_map<short, std::string> functions;
 
 // Enumeration for token types
 typedef enum TokenType {
+    //NODES
+    PROGRAM,
+    FUNCTIONS,
+    STATEMENT,
+    STATEMENTS,
+    //
     PLUS,//+
     MINUS,//-
     DIVIDE,///
@@ -61,7 +67,12 @@ typedef enum TokenType {
     RIGHTPUSH,//-> ~4~>
     LEFTCOPY,//<< <<~4~
     RIGHTCOPY,//>>
-
+    CONDITION_BRANCH,
+    DEFAULT,
+    //
+    STACK,
+    QUEUE,
+    PRIORITYQUEUE
 } TokenType;
 
 class Token {
@@ -70,6 +81,7 @@ public:
     Storage value;
 
     // Constructors for different token types
+    Token(){}
     Token(TokenType type);           // For operators
     Token(std::string literal);      // For identifiers (sets identifierKey)
     Token(int number);               // For numbers (sets number)

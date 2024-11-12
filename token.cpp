@@ -4,7 +4,7 @@
 
 short counter = 0;  // Initialize counter
 std::unordered_map<short, std::string> functions;
-
+short mainLocation = -1;
 Token::Token(TokenType type) {
     this->type = type;
     this->value.empty = nullptr;
