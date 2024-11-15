@@ -241,7 +241,7 @@ Node* Parser::parsePrimary() {
         Token identifier = consume(FUNCTION, "Expected function name.");
         return new Node(FUNCTION, &identifier);
     }
-    if (match(SOL) || match(LUNA) || match(NOX) || match(CONSTAS) || match(OMNIS)) {
+    if (match(SOL) || match(LUNA) || match(NOX) || match(CONSTAS) || match(OMNIS) || match(TRASH)) {
         return new Node(consume(peek().type, "Expected identifier.").type);
     }
     if (match(BOPEN)) {

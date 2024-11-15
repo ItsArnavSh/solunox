@@ -108,6 +108,9 @@ void Token::printToken() {
             break;
 
         // Keywords
+        case TRASH:
+            std::cout << "Token Type: TRASH";
+            break;
         case IF:
             std::cout << "Token Type: IF";
             break;

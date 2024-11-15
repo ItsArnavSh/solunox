@@ -79,6 +79,16 @@ void solveStatement(Node* start){
         popper(start);
         break;
         }
+        break;
+        case RIGHTPUSH:
+        if(start->children[1]->type==TRASH){
+            std::cout << "Deleting";
+            popper(start);
+        }
+        else{
+            error("Expected TRASH Keyword");
+        }
+        break;
     }
 }
 

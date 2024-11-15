@@ -60,6 +60,7 @@ typedef enum TokenType {
     NOX,
     CONSTAS,
     OMNIS,
+    TRASH,
 
     //SPECIAL
     DECLARE,//~abc~ //abc can be 123, all 9 values are saved as numbers

@@ -12,9 +12,10 @@ void loadKeywords(){
     keywords["nox"] = NOX;
     keywords["constas"] = CONSTAS;
     keywords["omnis"] = OMNIS;
-    keywords["IF"] = IF;
+    keywords["if"] = IF;
     keywords["else"] = ELSE;
     keywords["loop"] = LOOP;
+    keywords["trash"] = TRASH;
 }
 std::vector<Token> Scanner(std::string filename) {
     loadKeywords();
