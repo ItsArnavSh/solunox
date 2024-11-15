@@ -1,11 +1,5 @@
-$hello{
-    :sss:
-    print <~10
-}
-
 $main{
     :sss:
-        print <~ 20
-        @hello
-        print <~ 110
-    }
+    sol <~ input
+    print <~ sol*2
+}

@@ -143,7 +143,10 @@ int eval(Node* nt) {
 
         case NOX:
             return functionStack.top().nox.peek();
-
+        case INPUT:
+            int inp;
+            std::cin >> inp;
+            return inp;
         default:
             error("Error in evaluation");
             return -1;
