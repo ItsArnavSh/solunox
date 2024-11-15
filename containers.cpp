@@ -14,13 +14,13 @@ Container::Container(TokenType type) : type(type), head(nullptr) {}
 // Function to add an element based on the container type
 void Container::add(int x) {
     if (type == STACK) {
-        std::cout << "Adding to Stack\n";
+        //std::cout << "Adding to Stack\n";
         push(x);
     } else if (type == QUEUE) {
-        std::cout << "Adding to Queue\n";
+        //std::cout << "Adding to Queue\n";
         enqueue(x);
     } else if (type == PRIORITYQUEUE) {
-        std::cout << "Adding to Priority Queue\n";
+        //std::cout << "Adding to Priority Queue\n";
         priorityEq(x);
     }
 }
@@ -41,14 +41,14 @@ int Container::peek() {
     if (head) {
         return head->data;
     } else {
-        std::cout << "Container is empty.\n";
+        //std::cout << "Container is empty.\n";
         return -1;  // or throw an exception if desired
     }
 }
 
 // Push function to add an element to the top of the stack
 void Container::push(int x) {
-    std::cout << "Pushing " << x << " onto Stack\n";
+    //std::cout << "Pushing " << x << " onto Stack\n";
     node* newnode = new node(x);  // Using the node constructor to initialize
 
     if (!newnode) {
@@ -69,7 +69,7 @@ void Container::push(int x) {
 // Pop function to remove the top element from the stack
 void Container::pop() {
     if (!head) {
-        std::cout << "Stack is empty. Cannot pop.\n";
+        //std::cout << "Stack is empty. Cannot pop.\n";
         return;
     }
     node* temp = head;
@@ -80,7 +80,7 @@ void Container::pop() {
 
 // Enqueue function to add an element to the end of the queue
 void Container::enqueue(int x) {
-    std::cout << "Enqueueing " << x << " into Queue\n";
+    //std::cout << "Enqueueing " << x << " into Queue\n";
     node* newnode = new node(x);
 
     if (!head) {
@@ -96,7 +96,7 @@ void Container::enqueue(int x) {
 // Dequeue function to remove the front element from the queue
 void Container::dequeue() {
     if (!head) {
-        std::cout << "Queue is empty. Cannot dequeue.\n";
+        //std::cout << "Queue is empty. Cannot dequeue.\n";
         return;
     }
     node* temp = head;
@@ -107,7 +107,7 @@ void Container::dequeue() {
 
 // Function to insert an element into the priority queue based on priority
 void Container::priorityEq(int x) {
-    std::cout << "Inserting " << x << " into Priority Queue\n";
+    //std::cout << "Inserting " << x << " into Priority Queue\n";
     node* newnode = new node(x);
 
     if (!head || head->data > x) {
@@ -127,7 +127,7 @@ void Container::priorityEq(int x) {
 // Function to dequeue (remove) the front element from the priority queue
 void Container::priorityDq() {
     if (!head) {
-        std::cout << "Priority Queue is empty. Cannot dequeue.\n";
+        //std::cout << "Priority Queue is empty. Cannot dequeue.\n";
         return;
     }
     node* temp = head;

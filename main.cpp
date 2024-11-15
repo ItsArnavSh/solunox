@@ -14,7 +14,7 @@ int main(int argc, char** argv){
         token.printToken();
     Parser parser(tokens);
     Node* root = parser.parseProgram();
-    root->printTree(0);
+    //root->printTree(0);
     mainWalker(root);
 
 }

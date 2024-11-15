@@ -4,7 +4,9 @@
 #include <iostream>
 void deer(){}
 std::stack<containers> functionStack;
+Node* root;
 void mainWalker(Node *nt){
+    root = nt;
     if(mainLocation==-1){
         error("No Main Function found");
     }
@@ -17,10 +19,16 @@ void solveFunction(Node* start){
     //start[1] is declare, do it later
     //start[2] is statements
     solveStatements(start->children[1]);
+    functionStack.pop();//Remove Function from stack after operation
 }
 void solveStatements(Node* start){
     for(auto *statement : start->children){
+        if(statement->type==CALLER){
+            solveFunction(root->children[statement->value.identifierKey]);
+        }
+        else
         solveStatement(statement);
+
     }
 }
 void solveIF(Node* start){}
