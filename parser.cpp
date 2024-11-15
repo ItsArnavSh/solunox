@@ -77,6 +77,11 @@ Node* Parser::parseStatements() {
             Node* call = new Node(BREAK, &name);
              statements->addChild(call);
         }
+        else if(match(RETURN)){
+            Token name = consume(RETURN, "Return Here");
+            Node* call = new Node(RETURN, &name);
+             statements->addChild(call);
+        }
         else {
             peek().printToken();
             statements->addChild(parseStatement());

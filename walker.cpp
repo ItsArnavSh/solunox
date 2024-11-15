@@ -4,6 +4,7 @@
 #include <iostream>
 #include <stack>
 std::stack<bool> loopFlags;//For Keeping track of break statements in nested if-loops
+std::stack<bool> functionFlags;
 std::stack<containers> functionStack;
 std::stack<int> omnis;
 Node* root;
@@ -15,17 +16,20 @@ void mainWalker(Node *nt){
     solveFunction(nt->children[mainLocation]);
 }
 void solveFunction(Node* start){
-
+    functionFlags.push(false);
     containers func(STACK,STACK,STACK);
     functionStack.push(func);
     //start[1] is declare, do it later
     //start[2] is statements
     solveStatements(start->children[1]);
     functionStack.pop();//Remove Function from stack after operation
+    functionFlags.pop();
 }
 void solveStatements(Node* start){
     for(auto *statement : start->children){
         solveAnyStatement(statement);
+        if(functionFlags.top())
+            return;
 
     }
 }
@@ -45,6 +49,9 @@ void solveAnyStatement(Node* statement) {
                 error("No loops for break statement");
             loopFlags.top() = true;
             break;
+        case RETURN:
+            functionFlags.top()=true;
+            return;
         default:
             solveStatement(statement);  // Handle other statements like assignments
             break;
@@ -57,6 +64,8 @@ void solveIF(Node* start){
             solveStatements(condition->children[1]);
             for(auto *statement : condition->children[1]->children){
                 solveAnyStatement(condition);
+                if(functionFlags.top())
+                    return;
             }
             break;
         }
@@ -67,6 +76,8 @@ void solveLoop(Node* start){
     while(true){
         for(auto *statement : start->children){
             solveAnyStatement(statement);
+            if(functionFlags.top())
+                return;
             if(loopFlags.top())
                 break;
             }

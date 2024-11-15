@@ -49,6 +49,7 @@ typedef enum TokenType {
     CCLOSE,//}
     DOLLAR,//$
     CALLER,//@
+    RETURN,
     //KEYWORDS
     IF,
     ELSE,

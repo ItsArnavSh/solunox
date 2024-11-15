@@ -17,6 +17,7 @@ void loadKeywords(){
     keywords["loop"] = LOOP;
     keywords["trash"] = TRASH;
     keywords["break"] = BREAK;
+    keywords["return"] = RETURN;
 }
 std::vector<Token> Scanner(std::string filename) {
     loadKeywords();

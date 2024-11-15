@@ -1,13 +1,24 @@
+
+//Code to print the table of inputted number
+$multiplier{
+:sss:
+    sol <~ omnis
+    luna <~ omnis
+    print <~ sol*luna
+}
 $main{
-    :sss:
-    sol << 30
+:sss:
+    sol <~ input
+    luna <~ input
+    nox <~ 1
     loop{
-        print << sol
+        omnis << nox
+        omnis << sol
+        nox <~ nox+1
+        @multiplier
         if{
-            sol == 0{
-                break
-            }
+            nox==luna{
+            break}
         }
-        sol <~ sol-1
     }
 }
