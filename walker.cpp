@@ -73,7 +73,7 @@ void solveLoop(Node* start){
             if(loopFlags.top())
                 break;
         }
-
+        loopFlags.pop();
     }
 
 void popper(Node* start){
