@@ -5,7 +5,6 @@ $main{
         print << sol
         if{
             sol == 0{
-            print << 200
                 break
             }
         }

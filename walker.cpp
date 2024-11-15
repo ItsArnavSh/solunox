@@ -3,8 +3,7 @@
 #include "token.h"
 #include <iostream>
 #include <stack>
-
-void deer(){}
+std::stack<bool> loopFlags;//For Keeping track of break statements in nested if-loops
 std::stack<containers> functionStack;
 std::stack<int> omnis;
 Node* root;
@@ -41,6 +40,11 @@ void solveAnyStatement(Node* statement) {
         case IF:
             solveIF(statement);
             break;
+        case BREAK:
+            if(loopFlags.empty())
+                error("No loops for break statement");
+            loopFlags.top() = true;
+            break;
         default:
             solveStatement(statement);  // Handle other statements like assignments
             break;
@@ -59,24 +63,19 @@ void solveIF(Node* start){
     }
 }
 void solveLoop(Node* start){
-    bool flag = false;
+    loopFlags.push(false);
     while(true){
         for(auto *statement : start->children){
-            if(statement->type==BREAK){
-                flag = true;
+            solveAnyStatement(statement);
+            if(loopFlags.top())
                 break;
             }
-            else{
-                solveAnyStatement(statement);
-            }
+            if(loopFlags.top())
+                break;
         }
-        if(flag){
-            break;
-        }
-    }
-    out:
 
-}
+    }
+
 void popper(Node* start){
     switch(start->children[1]->type){
         case SOL:
