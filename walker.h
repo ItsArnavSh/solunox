@@ -10,6 +10,7 @@ void solveFunction(Node* start);
 void solveStatements(Node* start);
 void solveIF(Node* start);
 void solveLoop(Node* start);
+void solveAnyStatement(Node* statement);
 void solveStatement(Node* start);
 int eval(Node* nt);
 void printAll();

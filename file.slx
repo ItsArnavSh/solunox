@@ -1,13 +1,11 @@
-$add{
-:sss:
-    sol<~ omnis
-    sol <~ sol+omnis
-    omnis<~ sol
-}
 $main{
     :sss:
-    omnis <~ input
-    omnis <~ input
-    @add
-    print <~ omnis
+    loop{
+    print <~ 10
+    loop{
+        print <~ 10
+        break
+    }
+
+    }
 }

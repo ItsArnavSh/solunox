@@ -71,6 +71,11 @@ Node* Parser::parseStatements() {
             Node* call = new Node(CALLER, &name);
             statements->addChild(call);
         }
+        else if(match(BREAK)){
+            Token name = consume(BREAK, "Break Expected");
+            Node* call = new Node(BREAK, &name);
+             statements->addChild(call);
+        }
         else {
             statements->addChild(parseStatement());
         }

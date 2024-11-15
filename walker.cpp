@@ -26,16 +26,35 @@ void solveFunction(Node* start){
 }
 void solveStatements(Node* start){
     for(auto *statement : start->children){
-        if(statement->type==CALLER){
-            solveFunction(root->children[statement->value.identifierKey]);
-        }
-        else
-        solveStatement(statement);
+        solveAnyStatement(statement);
 
     }
 }
+void solveAnyStatement(Node* statement){
+    if(statement->type==CALLER){
+        solveFunction(root->children[statement->value.identifierKey]);
+    }
+    else if(statement->type==LOOP){
+        solveLoop(statement->children[0]);
+    }
+    else
+    solveStatement(statement);
+}
 void solveIF(Node* start){}
-void solveLoop(Node* start){}
+void solveLoop(Node* start){
+    while(true){
+        for(auto *statement : start->children){
+            if(statement->type==BREAK){
+                goto out;
+            }
+            else{
+                solveAnyStatement(statement);
+            }
+        }
+    }
+    out:
+
+}
 void popper(Node* start){
     switch(start->children[1]->type){
         case SOL:

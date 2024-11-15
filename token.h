@@ -73,7 +73,8 @@ typedef enum TokenType {
     //
     STACK,
     QUEUE,
-    PRIORITYQUEUE
+    PRIORITYQUEUE,
+    BREAK
 } TokenType;
 
 class Token {
