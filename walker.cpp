@@ -30,24 +30,30 @@ void solveStatements(Node* start){
 
     }
 }
-void solveAnyStatement(Node* statement){
-    if(statement->type==CALLER){
-        solveFunction(root->children[statement->value.identifierKey]);
+void solveAnyStatement(Node* statement) {
+    switch (statement->type) {
+        case CALLER:
+            solveFunction(root->children[statement->value.identifierKey]);
+            break;
+        case LOOP:
+            solveLoop(statement->children[0]);
+            break;
+        case IF:
+            solveIF(statement);
+            break;
+        default:
+            solveStatement(statement);  // Handle other statements like assignments
+            break;
     }
-    else if(statement->type==LOOP){
-        solveLoop(statement->children[0]);
-    }
-    else if(statement->type==IF){
-        solveIF(statement);
-    }
-    else
-    solveStatement(statement);
 }
 void solveIF(Node* start){
     for(auto condition:start->children){
         if(eval(condition->children[0])){
 
             solveStatements(condition->children[1]);
+            for(auto *statement : condition->children[1]->children){
+                solveAnyStatement(condition);
+            }
             break;
         }
     }
@@ -130,7 +136,6 @@ void solveStatement(Node* start){
         break;
         case PRINT:
         std::cout<<eval(start->children[1])<<std::endl;
-        popper(start);
         break;
         case OMNIS:
         omnis.push(eval(start->children[1]));

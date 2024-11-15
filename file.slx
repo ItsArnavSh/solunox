@@ -1,10 +1,11 @@
 $main{
     :sss:
-    sol << 5
+    sol << 30
     loop{
         print << sol
         if{
-            sol < 0{
+            sol == 0{
+            print << 200
                 break
             }
         }
