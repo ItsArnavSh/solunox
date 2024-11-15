@@ -1,4 +1,7 @@
 $main{
     :sss:
-    sol << 9
+        sol <~ 10
+        luna << sol
+        print <~ sol+20
+
     }

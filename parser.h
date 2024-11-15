@@ -19,6 +19,7 @@ public:
     Node(TokenType type, Token* token) : type(type), value(token->value) {}
 
     void addChild(Node* child);
+    void printTree(int indent);
 };
 
 class Parser{
@@ -46,4 +47,5 @@ class Parser{
     Node* parseUnary();
     Node* parsePrimary();
 };
+std::string tokenTypeToString(TokenType);
 #endif

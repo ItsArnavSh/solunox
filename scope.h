@@ -3,6 +3,6 @@
 //Here we will define the scope
 #include "containers.h"
 #include <stack>
-extern std::stack<containers*> functionStack;
+extern std::stack<containers> functionStack;
 
 #endif

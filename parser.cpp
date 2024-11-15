@@ -120,22 +120,21 @@ Node* Parser::parseBlock() {
 Node* Parser::parseStatement() {
     debugger("STATEMENT");
     Token left;
-
     // Ensure identifier types are handled correctly
-    if (match(SOL) || match(LUNA) || match(NOX) || match(CONSTAS) || match(OMNIS)) {
+    if (match(SOL) || match(LUNA) || match(NOX) || match(CONSTAS) || match(OMNIS) || match(PRINT)) {
         left = consume(peek().type, "Expected identifier.");
         Node* leftAssign = new Node(left.type, &left);
 
         // Add logic to handle assignment vs other operations
-        if (match(EQUAL)) {  // Assuming ASSIGN is the token for '=' or similar
-            consume(EQUAL, "Expected '=' after identifier.");
-            Node* assignmentNode = new Node(EQUAL);
+        if (match(EQUAL)|| match(LEFTPUSH)||match(RIGHTPUSH)||match(LEFTCOPY)||match(RIGHTCOPY)) {  // Assuming ASSIGN is the token for '=' or similar
+            peek().printToken();
+            Node* assignmentNode = new Node(peek().type);
+            consume(peek().type, "Expected major after identifier.");
             assignmentNode->addChild(leftAssign);
             assignmentNode->addChild(parseExpression());
             return assignmentNode;
         } else {
-            // Handle other single-token expressions/statements if any
-            return leftAssign;
+            error("Incorrect Statement");
         }
     }
 
@@ -261,4 +260,56 @@ Node* Parser::parsePrimary() {
         error("Unexpected token in expression.");
     }
     return nullptr;
+}
+void Node::printTree(int indent = 0) {
+    // Print indentation based on depth level
+    for (int i = 0; i < indent; ++i) {
+        std::cout << "  ";
+    }
+
+    // Print the token type of the current node
+    std::cout << tokenTypeToString(type) << std::endl;
+
+    // Recursively print each child node, increasing the indentation level
+    for (Node* child : children) {
+        child->printTree(indent + 1);
+    }
+}
+
+// Helper function to convert TokenType to string (you'll need this for readable output)
+std::string tokenTypeToString(TokenType type) {
+    switch (type) {
+        case PROGRAM: return "PROGRAM";
+        case FUNCTIONS: return "FUNCTIONS";
+        case FUNCTION: return "FUNCTION";
+        case STATEMENTS: return "STATEMENTS";
+        case STATEMENT: return "STATEMENT";
+        case IF: return "IF";
+        case LOOP: return "LOOP";
+        case CALLER: return "CALLER";
+        case DECLARE: return "DECLARE";
+        case EQUALEQUAL: return "EQUALEQUAL";
+        case BANG: return "BANG";
+        case BANGEQUAL: return "BANGEQUAL";
+        case LESSTHAN: return "LESSTHAN";
+        case LESSEQUAL: return "LESSEQUAL";
+        case GREATERTHAN: return "GREATERTHAN";
+        case GREATEREQUAL: return "GREATEREQUAL";
+        case PLUS: return "PLUS";
+        case MINUS: return "MINUS";
+        case DIVIDE: return "DIVIDE";
+        case MULTIPLY: return "MULTIPLY";
+        case EQUAL: return "EQUAL";
+        case SOL: return "SOL";
+        case LUNA: return "LUNA";
+        case NOX: return "NOX";
+        case CONSTAS: return "CONSTAS";
+        case OMNIS: return "OMNIS";
+        case NUMBER: return "NUMBER";
+        case LEFTPUSH: return "LEFTPUSH";
+        case LEFTCOPY: return "LEFTCOPY";
+        case RIGHTPUSH: return "RIGHTPUSH";
+        case RIGHTCOPY: return "RIGHTCOPY";
+        default: return "UNKNOWN";
+    }
 }

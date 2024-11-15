@@ -13,21 +13,21 @@ class Container{
     TokenType type;
     node* head;
     public:
-    Container(){}
-    Container(TokenType type){this->type = type;};
+    Container() : head(nullptr) {}
+    Container(TokenType type);
     void add(int x);
-    void remove(int x);
-    void peek();
+    void remove();
+    int peek();
     void push(int x);
-    void pop(int x);
+    void pop();
     void enqueue(int x);
-    void dequeue(int x);
+    void dequeue();
     void priorityEq(int x);
-    void priorityDq(int x);
+    void priorityDq();
 };
 class containers{
     public:
-    Container* sol,*luna,*nox;
+    Container sol,luna,nox;
     containers(TokenType Sol,TokenType Luna,TokenType Nox);
 };
 #endif
