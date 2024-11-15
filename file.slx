@@ -1,11 +1,13 @@
 $main{
     :sss:
+    sol << 5
     loop{
-    print <~ 10
-    loop{
-        print <~ 10
-        break
-    }
-
+        print << sol
+        if{
+            sol < 0{
+                break
+            }
+        }
+        sol <~ sol-1
     }
 }

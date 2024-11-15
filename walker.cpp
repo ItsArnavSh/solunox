@@ -37,19 +37,35 @@ void solveAnyStatement(Node* statement){
     else if(statement->type==LOOP){
         solveLoop(statement->children[0]);
     }
+    else if(statement->type==IF){
+        solveIF(statement);
+    }
     else
     solveStatement(statement);
 }
-void solveIF(Node* start){}
+void solveIF(Node* start){
+    for(auto condition:start->children){
+        if(eval(condition->children[0])){
+
+            solveStatements(condition->children[1]);
+            break;
+        }
+    }
+}
 void solveLoop(Node* start){
+    bool flag = false;
     while(true){
         for(auto *statement : start->children){
             if(statement->type==BREAK){
-                goto out;
+                flag = true;
+                break;
             }
             else{
                 solveAnyStatement(statement);
             }
+        }
+        if(flag){
+            break;
         }
     }
     out:

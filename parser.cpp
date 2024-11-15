@@ -59,6 +59,7 @@ Node* Parser::parseStatements() {
     Node* statements = new Node(STATEMENTS);
     while (!match(CCLOSE)) {
         if (match(IF)) {
+            debugger("Reached If");
             statements->addChild(parseIf());
         }
         else if (match(LOOP)) {
@@ -77,6 +78,7 @@ Node* Parser::parseStatements() {
              statements->addChild(call);
         }
         else {
+            peek().printToken();
             statements->addChild(parseStatement());
         }
     }
@@ -88,23 +90,18 @@ Node* Parser::parseIf() {
     debugger("IF");
     consume(IF, "Expected 'if'.");
     Node* ifNode = new Node(IF);
-
-    while (!match(CCLOSE) && !match(DEFAULT)) {
-        Node* conditionBranch = new Node(CONDITION_BRANCH);
-        conditionBranch->addChild(parseExpression());
-        consume(RIGHTPUSH, "Expected '~>' after condition expression.");
-        conditionBranch->addChild(parseBlock());
-        ifNode->addChild(conditionBranch);
+    consume(COPEN,"Expected {");
+    debugger("reached Here");
+    while(!match(CCLOSE)){
+        debugger("Inside If Loop");
+        Node* temp = new Node(CONDITION_BRANCH);
+        //On the left, an expression
+        temp->addChild(parseExpression());
+        //On the right, a block
+        temp -> addChild(parseBlock());
+        ifNode->addChild(temp);
     }
-
-    if (match(DEFAULT)) {
-        consume(DEFAULT, "Expected 'default' keyword.");
-        consume(RIGHTPUSH, "Expected '~>' after 'default'.");
-        Node* defaultBranch = new Node(DEFAULT);
-        defaultBranch->addChild(parseBlock());
-        ifNode->addChild(defaultBranch);
-    }
-    consume(CCLOSE, "Expected '}' to close the if statement.");
+    consume(CCLOSE,"Expected {");
     return ifNode;
 }
 
@@ -158,6 +155,11 @@ Node* Parser::parseStatement() {
 
 Node* Parser::parseExpression() {
     debugger("EXPRESSION");
+    if(match(COPEN))
+    {
+        error("Unexpected { in expression");
+        return nullptr;
+    }
     return parseEquality();
 }
 
