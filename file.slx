@@ -1,5 +1,13 @@
+$add{
+:sss:
+    sol<~ omnis
+    sol <~ sol+omnis
+    omnis<~ sol
+}
 $main{
     :sss:
-    sol <~ input
-    print <~ sol*2
+    omnis <~ input
+    omnis <~ input
+    @add
+    print <~ omnis
 }

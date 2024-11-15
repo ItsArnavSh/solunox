@@ -2,8 +2,11 @@
 #include "containers.h"
 #include "token.h"
 #include <iostream>
+#include <stack>
+
 void deer(){}
 std::stack<containers> functionStack;
+std::stack<int> omnis;
 Node* root;
 void mainWalker(Node *nt){
     root = nt;
@@ -43,6 +46,8 @@ void popper(Node* start){
         break;
         case NOX:
         functionStack.top().nox.pop();
+        case OMNIS:
+        omnis.pop();
         default:
         return;
 
@@ -69,6 +74,12 @@ void solveStatement(Node* start){
         std::cout<<eval(start->children[1])<<std::endl;
         popper(start);
         break;
+        case OMNIS:
+        omnis.push(eval(start->children[1]));
+        popper(start);
+        break;
+        default:
+        error("Container or Print Expected");
         }
         break;
         case LEFTCOPY:
@@ -85,6 +96,9 @@ void solveStatement(Node* start){
         case PRINT:
         std::cout<<eval(start->children[1])<<std::endl;
         popper(start);
+        break;
+        case OMNIS:
+        omnis.push(eval(start->children[1]));
         break;
         }
         break;
@@ -147,6 +161,14 @@ int eval(Node* nt) {
             int inp;
             std::cin >> inp;
             return inp;
+            case OMNIS:
+                if (!omnis.empty()) {
+                    return omnis.top();
+                } else {
+                    error("Omnis stack is empty");
+                    return -1;
+                }
+
         default:
             error("Error in evaluation");
             return -1;
