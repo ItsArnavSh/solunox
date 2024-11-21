@@ -166,6 +166,10 @@ void solveStatement(Node* start){
 
 int eval(Node* nt) {
     switch (nt->type) {
+        case AND:
+            return eval(nt->children[0]) && eval(nt->children[1]);
+        case OR:
+            return eval(nt->children[0]) || eval(nt->children[1]);
         case EQUALEQUAL:
             return eval(nt->children[0]) == eval(nt->children[1]);
 

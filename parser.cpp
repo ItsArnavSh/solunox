@@ -23,9 +23,7 @@ Token Parser::peek() {
     return tokens[current];
 }
 
-void debugger(const std::string& d) {
-    std::cout << "Entering parse: " << d << std::endl;
-}
+void debugger(const std::string& d) {}
 
 Node* Parser::parseProgram() {
     debugger("PROGRAM");
@@ -83,7 +81,6 @@ Node* Parser::parseStatements() {
              statements->addChild(call);
         }
         else {
-            peek().printToken();
             statements->addChild(parseStatement());
         }
     }
@@ -134,7 +131,6 @@ Node* Parser::parseStatement() {
 
         // Add logic to handle assignment vs other operations
         if (match(EQUAL)|| match(LEFTPUSH)||match(RIGHTPUSH)||match(LEFTCOPY)||match(RIGHTCOPY)) {  // Assuming ASSIGN is the token for '=' or similar
-            peek().printToken();
             Node* assignmentNode = new Node(peek().type);
             consume(peek().type, "Expected major after identifier.");
             assignmentNode->addChild(leftAssign);
@@ -148,7 +144,6 @@ Node* Parser::parseStatement() {
     // For standalone expressions (not assignments), parse normally
     Token curr = peek();
     current++;
-    curr.printToken();
     Node* statement = new Node(curr.type);
 
     // Add parsing for expression directly
@@ -165,9 +160,20 @@ Node* Parser::parseExpression() {
         error("Unexpected { in expression");
         return nullptr;
     }
-    return parseEquality();
+    return parseCompareSections();
 }
-
+Node* Parser::parseCompareSections(){
+    Node* left = parseEquality();
+    while (match(AND) || match(OR)) {
+        Token operatorToken = tokens[current++];
+        Node* right = parseEquality();
+        Node* equalityNode = new Node(operatorToken.type == AND ? AND : OR);
+        equalityNode->addChild(left);
+        equalityNode->addChild(right);
+        left = equalityNode;
+    }
+    return left;
+}
 Node* Parser::parseEquality() {
     debugger("EQUALITY");
     Node* left = parseComparison();
@@ -268,7 +274,6 @@ Node* Parser::parsePrimary() {
     if (unexpected.type == CCLOSE) {
         error("Unexpected '}' encountered, possibly missing a previous '{'.");
     } else {
-        unexpected.printToken();
         error("Unexpected token in expression.");
     }
     return nullptr;

@@ -18,6 +18,8 @@ void loadKeywords(){
     keywords["trash"] = TRASH;
     keywords["break"] = BREAK;
     keywords["return"] = RETURN;
+    keywords["and"] = AND;
+    keywords["or"] = OR;
 }
 std::vector<Token> Scanner(std::string filename) {
     loadKeywords();

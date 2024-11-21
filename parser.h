@@ -40,6 +40,7 @@ class Parser{
     Node* parseLoop();
     Node* parseIf();
     Node* parseExpression();
+    Node* parseCompareSections();
     Node* parseEquality();
     Node* parseComparison();
     Node* parseTerm();
