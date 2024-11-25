@@ -1,5 +1,7 @@
 $main{
-    :pss://All 3 containers are stacks
-    sol <~ 'H','E','L','L','O'
-    printc <~ sol,sol,sol,sol,sol
+    :sqp:
+    sol <~"Hello World"
+    luna <~"Hello World"
+    nox <~"Hello World"
+    printc <~ sol^10
 }

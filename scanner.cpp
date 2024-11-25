@@ -1,6 +1,7 @@
 #include "scanner.h"
 #include "token.h"
 #include <iostream>
+#include <iterator>
 #include <vector>
 #include <cctype>
 std::unordered_map<std::string,TokenType> keywords;
@@ -145,6 +146,18 @@ std::vector<Token> Scanner(std::string filename) {
                 }
                 break;
             }
+                case '"':{
+                    char ch = reader.readNextChar();
+                    tokens.push_back((short)ch);
+                        do{
+                        ch = reader.readNextChar();
+                        tokens.push_back(COMMA);
+                        tokens.push_back(ch);
+                    }while(ch != '"');
+                    tokens.pop_back();
+                    tokens.pop_back();
+                }
+                break;
                 case ':':{
                     std::string pattern = "";
                     pattern+=reader.readNextChar();
