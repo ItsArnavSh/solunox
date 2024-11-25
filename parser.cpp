@@ -135,6 +135,10 @@ Node* Parser::parseStatement() {
             consume(peek().type, "Expected major after identifier.");
             assignmentNode->addChild(leftAssign);
             assignmentNode->addChild(parseExpression());
+            while(match(COMMA)){
+                consume(COMMA,"Expected Comma");
+                assignmentNode->addChild(parseExpression());
+            }
             return assignmentNode;
         } else {
             error("Incorrect Statement");

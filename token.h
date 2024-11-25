@@ -78,7 +78,8 @@ typedef enum TokenType {
     QUEUE,
     PRIORITYQUEUE,
     BREAK,
-    PRINTC
+    PRINTC,
+    COMMA
 } TokenType;
 
 class Token {

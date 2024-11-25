@@ -15,6 +15,7 @@ void mainWalker(Node *nt){
         error("No Main Function found");
     }
     solveFunction(nt->children[mainLocation]);
+    std::cout << std::endl;
 }
 TokenType DivideAndConquor(short num){
     switch(num){
@@ -131,31 +132,32 @@ void popper(Node* start){
 }
 void solveStatement(Node* start){
     Node* leftOperand = start->children[0];
+    for(int i=1;i<start->children.size();i++){
     switch(start->type){
         case LEFTPUSH:
         switch(start->children[0]->type){
         case SOL:
-        functionStack.top().sol.add(eval(start->children[1]));
+        functionStack.top().sol.add(eval(start->children[i]));
         popper(start);
         break;
         case LUNA:
-        functionStack.top().luna.add(eval(start->children[1]));
+        functionStack.top().luna.add(eval(start->children[i]));
         popper(start);
         break;
         case NOX:
-        functionStack.top().nox.add(eval(start->children[1]));
+        functionStack.top().nox.add(eval(start->children[i]));
         popper(start);
         break;
         case PRINT:
-        std::cout<<eval(start->children[1])<<std::endl;
+        std::cout<<eval(start->children[i])<<std::endl;
         popper(start);
         break;
         case PRINTC:
-        std::cout<<char(eval(start->children[1])%128)<<std::endl;
+        std::cout<<char(eval(start->children[i])%128);
         popper(start);
         break;
         case OMNIS:
-        omnis.push(eval(start->children[1]));
+        omnis.push(eval(start->children[i]));
         popper(start);
         break;
         default:
@@ -165,27 +167,27 @@ void solveStatement(Node* start){
         case LEFTCOPY:
         switch(start->children[0]->type){
         case SOL:
-        functionStack.top().sol.add(eval(start->children[1]));
+        functionStack.top().sol.add(eval(start->children[i]));
         break;
         case LUNA:
-        functionStack.top().luna.add(eval(start->children[1]));
+        functionStack.top().luna.add(eval(start->children[i]));
         break;
         case NOX:
-        functionStack.top().nox.add(eval(start->children[1]));
+        functionStack.top().nox.add(eval(start->children[i]));
         break;
         case PRINT:
-        std::cout<<eval(start->children[1])<<std::endl;
+        std::cout<<eval(start->children[i])<<std::endl;
         break;
         case PRINTC:
-        std::cout<<char(eval(start->children[1])%128)<<std::endl;
+        std::cout<<char(eval(start->children[i])%128);
         break;
         case OMNIS:
-        omnis.push(eval(start->children[1]));
+        omnis.push(eval(start->children[i]));
         break;
         }
         break;
         case RIGHTPUSH:
-        if(start->children[1]->type==TRASH){
+        if(start->children[i]->type==TRASH){
 
             popper(start);
         }
@@ -193,6 +195,7 @@ void solveStatement(Node* start){
             error("Expected TRASH Keyword");
         }
         break;
+    }
     }
 }
 

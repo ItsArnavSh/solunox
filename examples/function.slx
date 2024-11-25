@@ -1,5 +1,5 @@
 $main{
-    :sss://All 3 containers are stacks
-    sol <~ 65
-    printc <~ sol
+    :pss://All 3 containers are stacks
+    sol <~ 'H','E','L','L','O'
+    printc <~ sol,sol,sol,sol,sol
 }

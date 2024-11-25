@@ -31,6 +31,13 @@ std::vector<Token> Scanner(std::string filename) {
         char current = reader.readNextChar();
 
         switch (current) {
+            case ',':
+             tokens.push_back(Token(COMMA));
+            break;
+            case '\'':
+            tokens.push_back(Token((short)reader.readNextChar()));
+            reader.goForward();
+            break;
             case '+':
                 tokens.push_back(Token(PLUS));
                 break;
