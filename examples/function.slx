@@ -1,7 +1,9 @@
 $main{
     :sqp:
-    sol <~"Hello World"
-    luna <~"Hello World"
-    nox <~"Hello World"
-    printc <~ sol^10
+    sol << "Hello World"
+    luna << "Hello World"
+    nox << "Hello World"
+    printc <~ sol^11,10
+    printc <~ luna^11,10
+    printc <~ nox^11,10
 }

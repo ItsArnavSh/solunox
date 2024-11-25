@@ -132,7 +132,9 @@ std::vector<Token> Scanner(std::string filename) {
                 }
                 break;
             }
-
+            case '^':
+            tokens.push_back(Token(EXPO));
+            break;
             case '>': {
                 char next = reader.readNextChar();
                 if (next == '>') {

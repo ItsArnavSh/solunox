@@ -133,6 +133,7 @@ void popper(Node* start){
 void solveStatement(Node* start){
     Node* leftOperand = start->children[0];
     for(int i=1;i<start->children.size();i++){
+
     switch(start->type){
         case LEFTPUSH:
         switch(start->children[0]->type){

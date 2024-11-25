@@ -134,10 +134,30 @@ Node* Parser::parseStatement() {
             Node* assignmentNode = new Node(peek().type);
             consume(peek().type, "Expected major after identifier.");
             assignmentNode->addChild(leftAssign);
-            assignmentNode->addChild(parseExpression());
+            Node* exp = parseExpression();
+
+            if(match(EXPO)){
+                consume(EXPO,"^ Expected");
+                int iterations = consume(NUMBER,"Number Expected after ^").value.number;
+                for(int i=0;i<iterations;i++)
+                    assignmentNode->addChild(exp);
+            }
+            else {
+                 assignmentNode->addChild(exp);
+            }
             while(match(COMMA)){
                 consume(COMMA,"Expected Comma");
-                assignmentNode->addChild(parseExpression());
+                Node* exp = parseExpression();
+
+                if(match(EXPO)){
+                    consume(EXPO,"^ Expected");
+                    int iterations = consume(NUMBER,"Number Expected after ^").value.number;
+                    for(int i=0;i<iterations;i++)
+                        assignmentNode->addChild(exp);
+                }
+                else {
+                     assignmentNode->addChild(exp);
+                }
             }
             return assignmentNode;
         } else {
