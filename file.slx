@@ -1,4 +1,21 @@
 $main{
-    :sss:
-    sol <~ 4
+    :sqp:
+    sol <~ 10
+    sol <~ 5
+    sol <~ 15
+    print <~ sol
+    print <~ sol
+    print <~ sol
+    luna <~ 10
+    luna <~ 5
+    luna <~ 15
+    print <~ luna
+    print <~ luna
+    print <~ luna
+    nox <~ 10
+    nox <~ 5
+    nox <~ 15
+    print <~ nox
+    print <~ nox
+    print <~ nox
 }

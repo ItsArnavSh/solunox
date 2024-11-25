@@ -1,6 +1,7 @@
 #include "walker.h"
 #include "containers.h"
 #include "token.h"
+#include <cstddef>
 #include <iostream>
 #include <stack>
 std::stack<bool> loopFlags;//For Keeping track of break statements in nested if-loops
@@ -15,11 +16,32 @@ void mainWalker(Node *nt){
     }
     solveFunction(nt->children[mainLocation]);
 }
+TokenType DivideAndConquor(short num){
+    switch(num){
+        case 0:
+            return STACK;
+        case 1:
+            return QUEUE;
+        case 2:
+            return PRIORITYQUEUE;
+        default:
+            error("Error in validation");
+            return FUNCTION;
+    }
+}
 void solveFunction(Node* start){
     functionFlags.push(false);
-    containers func(STACK,STACK,STACK);
+
+    int num = start->children[0]->value.number;
+    //std::cout << num<<std::endl;
+    //mod 3 once -> nox
+    short n = num%3;
+    num = num/3;
+    short l = num%3;
+    num = num/3;
+    short s = num%3;
+    containers func(DivideAndConquor(s),DivideAndConquor(l),DivideAndConquor(n));
     functionStack.push(func);
-    //start[1] is declare, do it later
     //start[2] is statements
     solveStatements(start->children[1]);
     functionStack.pop();//Remove Function from stack after operation
