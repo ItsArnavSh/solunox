@@ -20,6 +20,7 @@ void loadKeywords(){
     keywords["return"] = RETURN;
     keywords["and"] = AND;
     keywords["or"] = OR;
+    keywords["printc"] = PRINTC;
 }
 std::vector<Token> Scanner(std::string filename) {
     loadKeywords();

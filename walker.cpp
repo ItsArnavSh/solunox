@@ -30,6 +30,9 @@ TokenType DivideAndConquor(short num){
     }
 }
 void solveFunction(Node* start){
+    if(start->children.size()==0){
+        error("Function Not Found");
+    }
     functionFlags.push(false);
 
     int num = start->children[0]->value.number;
@@ -147,6 +150,10 @@ void solveStatement(Node* start){
         std::cout<<eval(start->children[1])<<std::endl;
         popper(start);
         break;
+        case PRINTC:
+        std::cout<<char(eval(start->children[1])%128)<<std::endl;
+        popper(start);
+        break;
         case OMNIS:
         omnis.push(eval(start->children[1]));
         popper(start);
@@ -169,6 +176,9 @@ void solveStatement(Node* start){
         case PRINT:
         std::cout<<eval(start->children[1])<<std::endl;
         break;
+        case PRINTC:
+        std::cout<<char(eval(start->children[1])%128)<<std::endl;
+        break;
         case OMNIS:
         omnis.push(eval(start->children[1]));
         break;
@@ -176,7 +186,7 @@ void solveStatement(Node* start){
         break;
         case RIGHTPUSH:
         if(start->children[1]->type==TRASH){
-            std::cout << "Deleting";
+
             popper(start);
         }
         else{

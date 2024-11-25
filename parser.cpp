@@ -125,7 +125,7 @@ Node* Parser::parseStatement() {
     debugger("STATEMENT");
     Token left;
     // Ensure identifier types are handled correctly
-    if (match(SOL) || match(LUNA) || match(NOX) || match(CONSTAS) || match(OMNIS) || match(PRINT)) {
+    if (match(SOL) || match(LUNA) || match(NOX) || match(CONSTAS) || match(OMNIS) || match(PRINT) || match(PRINTC)) {
         left = consume(peek().type, "Expected identifier.");
         Node* leftAssign = new Node(left.type, &left);
 

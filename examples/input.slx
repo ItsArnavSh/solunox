@@ -1,0 +1,5 @@
+$main{
+    :sss://All 3 containers are stacks
+    sol <~ input
+    print <~ sol+20
+}
