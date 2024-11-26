@@ -135,6 +135,36 @@ void solveStatement(Node* start){
     for(int i=1;i<start->children.size();i++){
 
     switch(start->type){
+        case EQUAL:
+        switch(start->children[0]->type){
+        case SOL:
+        functionStack.top().sol.remove();
+        functionStack.top().sol.add(eval(start->children[i]));
+        break;
+        case LUNA:
+        functionStack.top().luna.remove();
+        functionStack.top().luna.add(eval(start->children[i]));
+        break;
+        case NOX:
+        functionStack.top().luna.remove();
+        functionStack.top().nox.add(eval(start->children[i]));
+        break;
+        case PRINT:
+        std::cout<<eval(start->children[i])<<std::endl;
+        popper(start);
+        break;
+        case PRINTC:
+        std::cout<<char(eval(start->children[i])%128);
+        popper(start);
+        break;
+        case OMNIS:
+        functionStack.top().sol.remove();
+        omnis.push(eval(start->children[i]));
+        break;
+        default:
+        error("Container or Print Expected");
+        }
+        break;
         case LEFTPUSH:
         switch(start->children[0]->type){
         case SOL:
