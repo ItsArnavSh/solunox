@@ -1,6 +1,5 @@
 #include "token.h"
 #include <algorithm>
-#include "error.h"
 
 short counter = 0;  // Initialize counter
 std::unordered_map<short, std::string> functions;

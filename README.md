@@ -83,3 +83,30 @@ Containers start as stacks by default and can be changed using `~spq~`. Containe
 - `sol <-`: Point to the parent node.
 - `sol ->[0]`: Point to the first node in a tree/graph.
 - `a<->b`: Connect nodes (specific to Graphs).
+
+## Layout
+
+```
+Solunox/
+├── src/            # C++ source files (scanner, parser, walker, ...)
+├── include/        # C++ header files
+├── examples/       # Sample .slx scripts
+├── docs/           # Language docs (BNF grammar, tokens)
+├── notes/          # Design notes
+├── Makefile
+└── README.md
+```
+
+## Build & Run
+
+```
+make build              # compile into ./solunox
+make run                # build and run examples/hello.slx
+make clean              # remove object files and the binary
+```
+
+Run any script with:
+
+```
+./solunox <filename.slx>
+```
