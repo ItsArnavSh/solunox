@@ -1,0 +1,61 @@
+Solunox Grammar (EBNF)
+======================
+Derived from src/parser.cpp and src/scanner.cpp.
+Terminals are quoted. `{ x }` = zero or more, `[ x ]` = optional.
+
+program        ::= function { function } ;
+function       ::= "$" identifier "{" declaration statements "}" ;
+
+(* The three characters map in order to sol, luna, nox.
+   s = stack, q = queue, p = priority queue.
+   Example: ":sqp:" -> sol=stack, luna=queue, nox=priority queue. *)
+declaration    ::= ":" kind kind kind ":" ;
+kind           ::= "s" | "q" | "p" ;
+
+statements     ::= { statement } ;
+statement      ::= if_statement
+                 | loop_statement
+                 | call_statement
+                 | "break"
+                 | "return"
+                 | operation ;
+
+(* target op operand, [ , operand ]... *)
+operation      ::= target operator operand { "," operand } ;
+target         ::= "sol" | "luna" | "nox" | "constas" | "omnis" | "print" | "printc" ;
+operator       ::= "=" | "<~" | "<<" | ">>" | "~>" ;
+
+(* "^" repeats the operand expression N times (statement-level repetition). *)
+operand        ::= expression [ "^" number ] ;
+
+if_statement   ::= "if" "{" { expression block } "}" ;
+
+loop_statement ::= "loop" block ;
+block          ::= "{" statements "}" ;
+
+call_statement ::= "@" identifier ;
+
+(* Expression precedence, loosest to tightest. *)
+expression     ::= logic ;
+logic          ::= equality { ( "and" | "or" ) equality } ;
+equality       ::= comparison { ( "==" | "!=" ) comparison } ;
+comparison     ::= term { ( "<" | "<=" | ">" | ">=" ) term } ;
+term           ::= factor { ( "+" | "-" ) factor } ;
+factor         ::= unary { ( "*" | "/" ) unary } ;
+unary          ::= ( "!" | "-" ) unary | primary ;
+
+primary        ::= number
+                 | character
+                 | "(" expression ")"
+                 | "sol" | "luna" | "nox"
+                 | "omnis"
+                 | "input"
+                 | "trash"
+                 | identifier ;        (* parses, but fails at evaluation *)
+
+number         ::= digit { digit } ;
+character      ::= "'" any_char "'" ;   (* expands to its ASCII code *)
+string         ::= '"' { any_char } '"' ; (* expands to comma-separated char codes *)
+identifier     ::= ( letter | "_" ) { letter | digit | "_" } ;
+
+comment        ::= "//" { any_char except newline } ;

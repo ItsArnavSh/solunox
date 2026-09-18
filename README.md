@@ -1,88 +1,60 @@
-## **Introduction**
+# Solunox
 
-**Objective:**  
-Our objective is to design a Procedure-Oriented, Purpose-Based Programming Language called `Solunox`, implemented in C++ using a Tree Walk Interpreter. This language serves as an educational tool for mastering Data Structures and Algorithms.
+**Solunox** is a procedure-oriented, purpose-based programming language implemented in
+C++ as a **tree-walk interpreter**. It is an educational tool for practising data
+structures and algorithms: the language has **no variables**, so all computation is
+expressed through a small set of containers that can act as stacks, queues, or priority
+queues.
 
-## **Tree Walk Interpreter**
+## How it works
 
-A Tree Walk Interpreter in `Solunox` consists of three core components: **Lexing**, **Parsing**, and **Output Generation**.
+The interpreter has three stages, all under `src/`:
 
-- **Lexing**: The lexer converts the source script into a sequence of tokens.
-- **Parsing**: The parser accepts the token array, constructs an Abstract Syntax Tree (AST), and performs semantic analysis.
-- **Output Generation**: The code is interpreted by traversing the AST, which gives the interpreter its name.
+- **Lexing** (`scanner.cpp`) — turns the source script into a sequence of tokens.
+- **Parsing** (`parser.cpp`) — builds an Abstract Syntax Tree (AST) and performs
+  semantic checks. Every function becomes one child of the root `FUNCTIONS` node, in
+  declaration order.
+- **Walking** (`walker.cpp`) — executes the program by traversing the AST. Execution
+  begins at the function named `main`.
 
-## **Solunox**
+## A taste of the language
 
-`Solunox` is designed with the unique feature of having no variables. This design choice encourages users to become proficient with data structures such as Stacks, Queues, Linked Lists, Trees, and Graphs. The language uses three primary containers whose combinations enable computation. Additionally, an immutable vector is provided for storing and passing data without modifying it.
+```
+$main{
+    :sqs:
+    sol <~ 1, 2, 3       // sol is a stack,  luna is a queue
+    luna <~ 10, 20, 30
+    print << sol         // 3
+    print << luna        // 10
+}
 
-### **Containers: Sol, Luna, Nox**
+$greet{
+    :sss:
+    printc << "Hello"
+}
+```
 
-These versatile containers can dynamically take on the roles of Stacks, Queues, or Priority Queues.
+Key ideas:
 
-**Operations:**
+- A program is a set of `$name{ ... }` functions; one must be `main`.
+- Each function declares its container types in its first line, e.g. `:sqs:`
+  (`s`tack / `q`ueue / `p`riority queue for `sol`, `luna`, `nox`).
+- There are no variables, parameters, or return values. Each function call gets a fresh
+  container scope, and `omnis` is the only storage shared between functions.
+- `@name` calls a function; `<~` pushes (moving a container's top), `<<` pushes a copy,
+  `print` / `printc` produce output, and `if` / `loop` / `break` / `return` control flow.
 
-- `cont << value`: Push `value` onto `cont`.
-- `cont << input("Enter data")`: Insert user input into `cont`.
-- `cont`: Retrieve the top element of `cont`.
-- `print(cont)`: Print the top element of `cont`.
-- `cont = value`: Set the top element of `cont` to `value`.
-- `cont1 -> cont2`: Pop from `cont1` and push to `cont2`.
-- `cont1 - n -> cont2`: Pop the last `n` elements from `cont1` and push to `cont2`.
-- `cont -> n`: Pop and delete the last `n` elements from `cont`.
-- `cont?`: Return `false` if `cont` is empty, otherwise `true`.
+> The old README examples (e.g. `$f() {}`, `->`, `if/else`, `constas[3]`) do **not**
+> match the implementation. The current language is documented in
+> [`docs/language.md`](docs/language.md).
 
-### **Function Declarations**
+## Documentation
 
-Functions are declared with:
-
-```$functionName() { /* body */ }```
-
-### **Control Structures**
-
-- **If-Else**: 
-  ```if (condition) { /* code */ } else { /* code */ }```
-- **Loop**: Continuous loop until `break`.
-- **Switch-Case**: Evaluate an expression, match cases, with a default case.
-
-### **Expressions**
-
-`Solunox` supports the following operations:
-
-`+`, `-`, `*`, `/`, `&&`, `||`, `!`, `==`, `!=`, `<`, `>`.
-
-### **Immutable Array (constas)**
-
-Each function has an immutable array `constas` that stores data but does not allow modifications directly (changes are made via containers).
-
-- `constas << value`: Push `value` onto `constas`.
-- `constas?`: Return the length of the array, or `0` if it is empty.
-- `constas[3]`: Retrieve the third element from `constas`.
-
-### **Scoping**
-
-- **Global Scope**: `Solunox` does not support a global scope.
-- **Function Scope**: Each function has its own scope with a unique set of stacks and arrays.
-
-### **Default Container Types**
-
-Containers start as stacks by default and can be changed using `~spq~`. Containers must be empty before changing types.
-
-- `cont~s;`: Convert `cont` to a Stack.
-- `cont~q;`: Convert `cont` to a Queue.
-- `cont~p;`: Convert `cont` to a Priority Queue.
-
-### **Non-Primitive Data Structures**
-
-`Solunox` supports Linked Lists, Graphs, and Trees. Their references can be stored in existing data structures and used as needed.
-
-#### **Creating Non-Primitive Data Structures**
-
-- `sol << new (SLL/DLL/CLL/TREE/HEAP/GRAPH)`: Create a new data structure.
-- `*sol`: Return the value stored in `sol`.
-- `sol ->`: Point to the child node.
-- `sol <-`: Point to the parent node.
-- `sol ->[0]`: Point to the first node in a tree/graph.
-- `a<->b`: Connect nodes (specific to Graphs).
+- [`docs/language.md`](docs/language.md) — the complete language guide, with verified
+  examples and the current list of known bugs and unimplemented features.
+- [`docs/bnf.txt`](docs/bnf.txt) — the grammar (EBNF) as implemented.
+- [`docs/tokens.md`](docs/tokens.md) — token and keyword reference.
+- [`notes/scanner.md`](notes/scanner.md) — design notes on the scanner.
 
 ## Layout
 
@@ -91,7 +63,7 @@ Solunox/
 ├── src/            # C++ source files (scanner, parser, walker, ...)
 ├── include/        # C++ header files
 ├── examples/       # Sample .slx scripts
-├── docs/           # Language docs (BNF grammar, tokens)
+├── docs/           # Language docs (guide, grammar, tokens)
 ├── notes/          # Design notes
 ├── Makefile
 └── README.md
@@ -110,3 +82,16 @@ Run any script with:
 ```
 ./solunox <filename.slx>
 ```
+
+## Project status
+
+Implemented and working: functions and calls (including recursion), per-call container
+scopes, stack / queue / priority-queue containers, integer/char/string literals,
+arithmetic and logical expressions, `if` chains, `loop` / `break` / `return`, `print` /
+`printc` / `input`, and the shared `omnis` stack.
+
+Not implemented (despite older docs): `else`, `constas` arrays and indexing,
+container type conversion, linked lists / trees / graphs, and the `>>` / `~>` pop
+operators. See
+[`docs/language.md` §11](docs/language.md#11-known-bugs--unimplemented-features) for
+the authoritative list.
