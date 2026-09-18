@@ -1,5 +1,15 @@
+// hello.slx -- the smallest useful Solunox program.
+//
+// Run:
+//   ./solunox examples/hello.slx
+//
+// A program is a set of functions; execution starts at main. Every function
+// body begins with a container declaration (:sss: = sol, luna and nox are
+// stacks). printc writes characters, so a string is printed one char at a
+// time, and 10 is the newline character.
+
 $main{
-    :sss://All 3 containers are stacks
-    sol <~ 10
-    print <~ 10
+    :sss:
+    printc << "Hello, Solunox!"
+    printc << 10
 }

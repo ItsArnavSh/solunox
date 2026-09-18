@@ -48,6 +48,20 @@ Key ideas:
 > match the implementation. The current language is documented in
 > [`docs/language.md`](docs/language.md).
 
+## Examples
+
+- [`examples/hello.slx`](examples/hello.slx) — minimal program; prints a greeting.
+- [`examples/function.slx`](examples/function.slx) — declaring and calling functions,
+  and passing data between them through `omnis`.
+- [`examples/input.slx`](examples/input.slx) — reading numbers from stdin and doing
+  arithmetic. Run it with: `echo "7 5" | ./solunox examples/input.slx`
+- [`examples/factorial.slx`](examples/factorial.slx) — recursion (asks for a number
+  and prints its factorial, passing data through `omnis`).
+- [`examples/toolkit.slx`](examples/toolkit.slx) — a larger end-to-end program:
+  recursion, all three container kinds, `omnis`, `loop`/`break`/`return`, `if`
+  chains and I/O. Run it with:
+  `echo "5  3 1 4 1 5" | ./solunox examples/toolkit.slx`
+
 ## Documentation
 
 - [`docs/language.md`](docs/language.md) — the complete language guide, with verified

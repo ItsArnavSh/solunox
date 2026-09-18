@@ -320,6 +320,9 @@ but note:
   `sol`/`luna`/`nox`. Use `omnis`.
 - There is **no recursion-depth guard**. Infinite recursion will crash.
 
+A complete recursive example is [`examples/factorial.slx`](../examples/factorial.slx):
+it pushes `n` onto `omnis`, recurses on `n-1`, and leaves `n!` on `omnis` for the caller.
+
 ### 7.4 `main`
 
 A function named `main` is required. If it is missing you get
@@ -353,7 +356,10 @@ $ echo 5 | ./solunox examples/input.slx
 
 ## 9. Worked examples
 
-All of the examples below are verified to run against the current build.
+All of the examples below are verified to run against the current build. A larger
+end-to-end program lives in
+[`examples/toolkit.slx`](../examples/toolkit.slx) (recursion, all three container
+kinds, `omnis`, and I/O).
 
 ### Hello
 

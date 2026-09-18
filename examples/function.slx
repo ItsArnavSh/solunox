@@ -1,5 +1,36 @@
+// function.slx -- declaring and calling functions.
+//
+// Run:
+//   ./solunox examples/function.slx
+//
+// Solunox functions take no parameters and return no values, and each call
+// gets its own fresh containers. Values are passed between functions through
+// omnis, the one stack shared by every function:
+//   - main pushes 21 onto omnis and calls @double
+//   - double reads 21, doubles it, and leaves 42 on omnis
+//   - main consumes the result
+
+// A function with no data to pass: it just prints.
+$greet{
+    :sss:
+    printc << "== function.slx =="
+    printc << 10
+}
+
+// Reads n from omnis, leaves 2*n on omnis.
+$double{
+    :sss:
+    sol <~ omnis
+    omnis <~ sol * 2
+}
+
 $main{
-:pss:
-    sol <~ "HELLO WORLD"
-    printc <~ sol^11
+    :sss:
+    @greet
+
+    omnis <~ 21
+    @double
+
+    printc << "double(21) = "
+    print <~ omnis
 }

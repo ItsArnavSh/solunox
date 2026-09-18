@@ -1,0 +1,93 @@
+// toolkit.slx -- a number toolkit that ties most of the language together.
+//
+// Reads:  n, then n integers from stdin.
+// Prints: n!, fib(n), and the n integers in sorted order.
+//
+// Run:
+//   echo "5  3 1 4 1 5" | ./solunox examples/toolkit.slx
+//
+// Demonstrates: function declaration + calls (@), recursion, the three
+// container kinds (stack/queue/priority queue), the shared omnis stack,
+// loop/break/return, if-chains, arithmetic, strings and character output.
+//
+// Containers in main are :sps: -> sol=stack, luna=priority queue, nox=stack.
+// The priority queue is deliberately luna (not nox): popper()'s NOX case is
+// missing a break and falls through to omnis.pop() (see docs/language.md).
+
+$banner{
+    :sss:
+    printc << "== NUMBER TOOLKIT =="
+    printc << 10
+}
+
+// Reads n from omnis, leaves n! on omnis.
+$factorial{
+    :sss:
+    sol <~ omnis
+    luna <~ 1
+    loop {
+        if { sol <= 1 { break } }
+        luna <~ luna * sol
+        sol <~ sol - 1
+    }
+    omnis <~ luna
+}
+
+// Reads n from omnis, leaves fib(n) on omnis.
+// fib(0)=0, fib(1)=1, fib(n)=fib(n-1)+fib(n-2).
+$fibonacci{
+    :sss:
+    sol <~ omnis
+    if {
+        sol < 2 {
+            omnis <~ sol
+            return
+        }
+    }
+    luna <~ sol
+    sol <~ luna - 1
+    omnis <~ sol
+    @fibonacci
+    nox <~ omnis
+    sol <~ luna - 2
+    omnis <~ sol
+    @fibonacci
+    sol <~ nox + omnis
+    omnis <~ sol
+}
+
+$main{
+    :sps:
+    @banner
+
+    // Keep copies of n for each helper and for the final report.
+    omnis <~ input
+    sol << omnis
+    nox << omnis
+
+    @factorial
+    printc << "factorial = "
+    print <~ omnis
+
+    omnis <~ sol
+    @fibonacci
+    printc << "fibonacci = "
+    print <~ omnis
+
+    // Read n numbers into the priority queue (it keeps them sorted).
+    sol << nox
+    loop {
+        if { nox <= 0 { break } }
+        luna <~ input
+        nox <~ nox - 1
+    }
+
+    printc << "sorted    = "
+    loop {
+        if { sol <= 0 { break } }
+        print <~ luna
+        sol <~ sol - 1
+    }
+
+    @banner
+}

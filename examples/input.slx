@@ -1,5 +1,22 @@
+// input.slx -- reading numbers from stdin and doing arithmetic.
+//
+// Run:
+//   echo "7 5" | ./solunox examples/input.slx
+//
+// `input` evaluates to the next integer on stdin, so it can be pushed into a
+// container or used anywhere an expression is allowed. Here the two numbers
+// go into sol and luna, and we print their sum and product. Printing with
+// `print <~ expr` prints a value, and only pops when the operand is itself a
+// container, so `sol` and `luna` are still available afterwards.
+
 $main{
-    :sss://All 3 containers are stacks
+    :sss:
     sol <~ input
-    print <~ sol+20
+    luna <~ input
+
+    printc << "sum = "
+    print <~ sol + luna
+
+    printc << "product = "
+    print <~ sol * luna
 }

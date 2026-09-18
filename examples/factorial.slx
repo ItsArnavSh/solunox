@@ -1,0 +1,43 @@
+// factorial.slx -- reads a number and prints its factorial using recursion.
+//
+// Run:
+//   echo 5 | ./solunox examples/factorial.slx
+//
+// Solunox functions take no parameters and return no values, and every call
+// gets its own containers, so the argument and the result are passed through
+// omnis (the one stack shared by all functions):
+//   - caller pushes n onto omnis
+//   - the function leaves n! on top of omnis
+//
+// Uses sol as the working value and luna to remember n across the
+// recursive call. (Values fit in a 32-bit int: 12! is the largest safe.)
+
+$factorial{
+    :sss:
+    sol <~ omnis          // take n off omnis
+    if {
+        sol <= 1 {
+            omnis <~ 1    // 0! = 1! = 1
+            return
+        }
+    }
+
+    luna <~ sol           // keep n in luna
+    sol <~ luna - 1       // compute n - 1
+    omnis <~ sol          // pass n - 1 to the recursive call
+    @factorial            // omnis now holds (n - 1)!
+
+    sol <~ luna * omnis   // n * (n - 1)!
+    omnis <~ sol          // leave n! for the caller
+}
+
+$main{
+    :sss:
+    printc << "Enter a number: "
+
+    omnis <~ input        // read n onto omnis
+    @factorial            // replace it with n!
+
+    printc << "Factorial = "
+    print <~ omnis        // print and consume the result
+}
